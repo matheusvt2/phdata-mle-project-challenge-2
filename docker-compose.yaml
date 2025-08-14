@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_DIR=/src/app/model
+      - DEMOGRAPHICS_CSV=/src/app/data/zipcode_demographics.csv
+      - LOG_LEVEL=INFO
+      - MODEL_NAME=KNeighborsRegressor
+    restart: unless-stopped
+
+
