@@ -24,7 +24,7 @@ router = APIRouter()
 settings = get_settings()
 
 
-def save_predictions_to_file(input_records: List[Dict[str, Any]], predictions: List[float], 
+def save_predictions_to_file(input_records: List[Dict[float, Any]], predictions: List[float], 
                            endpoint_type: str = "full") -> None:
     """Save predictions to model_predictions.json file with input data + predictions."""
     try:
@@ -66,7 +66,7 @@ def predict(items: List[FullHouseFeatures]) -> List[PredictionResponse]:
     """
     try:
         service = get_model_service()
-        records: List[Dict[int, Any]] = [i.model_dump() for i in items]
+        records: List[Dict[float, Any]] = [i.model_dump() for i in items]
         logger.info("Received %d records for /predict", len(records))
         preds = service.predict(records)
         
@@ -95,7 +95,7 @@ def predict_minimal(items: List[MinimalHouseFeatures]) -> List[PredictionRespons
     """Predict prices for a batch of minimal feature records."""
     try:
         service = get_model_service()
-        records: List[Dict[int, Any]] = [i.model_dump() for i in items]
+        records: List[Dict[float, Any]] = [i.model_dump() for i in items]
         logger.info("Received %d records for /predict/minimal", len(records))
         preds = service.predict(records)
         

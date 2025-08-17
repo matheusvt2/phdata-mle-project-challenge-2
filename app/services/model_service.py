@@ -45,7 +45,7 @@ class ModelService:
             merged = merged.drop(columns=["zipcode"])
         return merged
 
-    def _to_feature_frame(self, records: List[Dict[int, Any]]) -> pd.DataFrame:
+    def _to_feature_frame(self, records: List[Dict[float, Any]]) -> pd.DataFrame:
         """Convert list of dicts to a DataFrame aligned to model feature order."""
         raw_df = pd.DataFrame.from_records(records)
         augmented = self._augment_with_demographics(raw_df)
@@ -59,7 +59,7 @@ class ModelService:
         features = augmented[self._feature_order]
         return features
 
-    def predict(self, records: List[Dict[int, Any]]) -> List[float]:
+    def predict(self, records: List[Dict[float, Any]]) -> List[float]:
         """Generate predictions for provided records.
 
         Returns list of floats to be JSON serializable.
