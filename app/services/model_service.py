@@ -38,18 +38,6 @@ class ModelService:
         if "zipcode" not in df.columns:
             raise ValueError("zipcode is required for demographics join")
         df = df.copy()
-        # Ensure is a string for comparison
-        # """
-        # data = pandas.read_csv(sales_path,
-        #                    usecols=sales_column_selection,
-        #                    dtype={'zipcode': str})
-        # demographics = pandas.read_csv(demographics_path,
-        #                            dtype={'zipcode': str})
-
-        # merged_data = data.merge(demographics, how="left",
-        #                      on="zipcode").drop(columns="zipcode")
-        # """
-        df["zipcode"] = df["zipcode"].astype(str)
         merged = df.merge(self._demographics, how="left", on="zipcode")
         # Drop zipcode if not used by the model
         if ("zipcode" not in self._feature_order
@@ -57,7 +45,7 @@ class ModelService:
             merged = merged.drop(columns=["zipcode"])
         return merged
 
-    def _to_feature_frame(self, records: List[Dict[str, Any]]) -> pd.DataFrame:
+    def _to_feature_frame(self, records: List[Dict[int, Any]]) -> pd.DataFrame:
         """Convert list of dicts to a DataFrame aligned to model feature order."""
         raw_df = pd.DataFrame.from_records(records)
         augmented = self._augment_with_demographics(raw_df)
@@ -71,7 +59,7 @@ class ModelService:
         features = augmented[self._feature_order]
         return features
 
-    def predict(self, records: List[Dict[str, Any]]) -> List[float]:
+    def predict(self, records: List[Dict[int, Any]]) -> List[float]:
         """Generate predictions for provided records.
 
         Returns list of floats to be JSON serializable.

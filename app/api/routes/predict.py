@@ -66,7 +66,7 @@ def predict(items: List[FullHouseFeatures]) -> List[PredictionResponse]:
     """
     try:
         service = get_model_service()
-        records: List[Dict[str, Any]] = [i.model_dump() for i in items]
+        records: List[Dict[int, Any]] = [i.model_dump() for i in items]
         logger.info("Received %d records for /predict", len(records))
         preds = service.predict(records)
         
@@ -80,7 +80,7 @@ def predict(items: List[FullHouseFeatures]) -> List[PredictionResponse]:
                 prediction=p,
                 model=model_name,
                 status="success",
-                message="Predicted Value in CURRENCY_LABEL",
+                message="Predicted Value in USD",
                 datetime=now_iso,
             )
             for p in preds
@@ -95,7 +95,7 @@ def predict_minimal(items: List[MinimalHouseFeatures]) -> List[PredictionRespons
     """Predict prices for a batch of minimal feature records."""
     try:
         service = get_model_service()
-        records: List[Dict[str, Any]] = [i.model_dump() for i in items]
+        records: List[Dict[int, Any]] = [i.model_dump() for i in items]
         logger.info("Received %d records for /predict/minimal", len(records))
         preds = service.predict(records)
         
@@ -109,7 +109,7 @@ def predict_minimal(items: List[MinimalHouseFeatures]) -> List[PredictionRespons
                 prediction=p,
                 model=model_name,
                 status="success",
-                message="Predicted Value in CURRENCY_LABEL",
+                message="Predicted Value in USD",
                 datetime=now_iso,
             )
             for p in preds
