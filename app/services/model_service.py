@@ -86,7 +86,7 @@ _singleton: Optional["ModelService"] = None
 
 
 def get_model_service() -> ModelService:
-    """Return a singleton instance of `ModelService`. Lazily initialized."""
+    """Return a singleton instance of `ModelService`."""
     global _singleton
     if _singleton is None:
         _singleton = ModelService()
