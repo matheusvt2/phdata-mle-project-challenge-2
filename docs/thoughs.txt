@@ -69,6 +69,7 @@ Adding RMSE to analisys reinterates that the model is diverging on price inferen
 - I will save all prediction to a .csv file, mantaining the input format from ("future_unseen_examples.csv").
 - Populate values from prediction to a column named price_prediction
 - Add two more columns prediction_timestamp and endpoint_type
-- Add an empty column name price_gt (ground truth)
+- Since is a supervisioned model, it needs the ground truth value to validate   
+    - Add an empty column name price_gt (ground truth)
 - Programatically edit this collumn name simulating a manual or automated labeling
 - Compare prod and dev metrics
